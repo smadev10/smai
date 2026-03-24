@@ -9,7 +9,7 @@ export const EmptyStateCard = ({ composer }: EmptyStateCardProps) => (
   <Card>
     <CardHeader className="items-center space-y-2 text-center">
       <CardTitle className="text-xl font-semibold tracking-tight">
-        Start a new conversation
+        Welcome to SMAI
       </CardTitle>
       <div className="text-sm text-muted-foreground">
         Ask anything or pick a chat from the sidebar to continue.

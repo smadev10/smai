@@ -24,7 +24,7 @@ export const ChatSidebar = ({
         <AvatarFallback>AI</AvatarFallback>
       </Avatar>
       <div>
-        <div className="text-sm font-semibold">SMAI Workspace</div>
+        <div className="text-sm font-semibold">SMAI</div>
         <div className="text-xs text-muted-foreground">Chats</div>
       </div>
     </div>
