@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
@@ -52,6 +52,19 @@ export const MessageComposer = ({
       onSend()
     }
   }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const menu = attachmentMenuRef.current
+      if (!menu || !menu.open) return
+      if (event.target instanceof Node && !menu.contains(event.target)) {
+        menu.open = false
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   const handleAttachmentChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -119,11 +132,11 @@ export const MessageComposer = ({
             asChild
             variant="ghost"
             size="icon"
-            className="h-11 w-11 rounded-full bg-muted text-foreground hover:bg-muted hover:text-foreground"
+            className="h-10 w-10 rounded-full bg-muted text-foreground hover:bg-muted hover:text-foreground"
           >
             <summary className="list-none [&::-webkit-details-marker]:hidden">
               <span className="flex items-center gap-2">
-                <Plus className="h-9 w-9" />
+                <Plus />
               </span>
             </summary>
           </Button>
@@ -158,7 +171,7 @@ export const MessageComposer = ({
           onClick={onSend}
           disabled={disabled}
           size="icon"
-          className="h-9 w-9 rounded-full"
+          className="h-10 w-10 rounded-full"
           aria-label="Send message"
         >
           <Send className="h-4 w-4" />
