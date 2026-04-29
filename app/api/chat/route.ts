@@ -27,10 +27,11 @@ export async function POST(req: NextRequest) {
 
         controller.enqueue(encoder.encode("data: [DONE]\n\n"))
       } catch (error) {
-        const message =
-          error instanceof Error && error.message.includes("ECONNREFUSED")
-            ? "Ollama is not running. Start it with: ollama serve"
-            : "Failed to get a response from the model."
+        console.error("[/api/chat] Ollama error:", error)
+        const errMsg = error instanceof Error ? error.message : String(error)
+        const message = errMsg.includes("ECONNREFUSED")
+          ? "Ollama is not running. Start it with: ollama serve"
+          : `Failed to get a response from the model. (${errMsg})`
         controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: message })}\n\n`))
       } finally {
         controller.close()

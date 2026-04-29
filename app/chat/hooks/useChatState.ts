@@ -21,7 +21,19 @@ export const useChatState = () => {
   )
 
   const sendMessage = async () => {
-    if (!message.trim() || !activeChat || isLoading) return
+    if (!message.trim() || isLoading) return
+
+    let currentChat = activeChat
+
+    if (!currentChat) {
+      currentChat = {
+        id: `chat-${Date.now()}`,
+        title: message.trim().slice(0, 30),
+        messages: [],
+      }
+      setActiveChatId(currentChat.id)
+      setChats((prev) => [currentChat!, ...prev])
+    }
 
     const userMessage: Message = {
       id: `${Date.now()}-user`,
@@ -38,8 +50,8 @@ export const useChatState = () => {
       timestamp: createTimestamp(),
     }
 
-    const targetChatId = activeChat.id
-    const historyForApi = activeChat.messages.map((m) => ({
+    const targetChatId = currentChat.id
+    const historyForApi = currentChat.messages.map((m) => ({
       role: m.role,
       content: m.content,
     }))
